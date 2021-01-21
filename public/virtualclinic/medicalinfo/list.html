@@ -16,6 +16,7 @@
             <th>Blood Type</th>
             <th>Allergy</th>
             <th data-dafultsort="disabled">Options</th>
+			<th>View Data</th>
         </thead>
         <tbody>
             {% for medicalinfo in query %}
@@ -28,6 +29,8 @@
                             <a class="btn btn-warning btn-sm" href="/medicalinfo/update/?pk={{ medicalinfo.pk }}" role="button">Update</a>
                         {% endif %}
                     </td>
+					<td><a href="https://clinician-dashboard-f786a.web.app/health-dashboard/{{ medicalinfo.account.profile.id }}" class="button btn">View</a></td>
+	
                 </tr>
             {% endfor %}
                     
