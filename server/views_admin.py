@@ -12,7 +12,7 @@ from server.forms import SpecialityForm, SymptomForm, EmployeeRegistrationForm, 
 from server.models import Speciality, Account, Action, Hospital, Location, Statistics, Symptom, Profile, Appointment, Message, Prescription, MedicalInfo, MedicalTest
 from server import logger
 from server import views
-
+import requests
 
 def parse_speciality_delete(request):
     # Authentication check.
@@ -77,6 +77,15 @@ def user_archive(request):
             user.archive = True
             user.save()
             #logger.log(Action.ACTION_ADMIN, 'Admin deleted a user',user)
+            # TODO Replace with Osama's url
+            url = 'https://jsonplaceholder.typicode.com/todos/1'
+            myobj ={
+                "patientId": user.profile.id,
+                "isApproved": True,
+                "isArchived": True
+            }
+
+            x = requests.put(url, data = myobj)     
             template_data['alert_success'] = "The user has been deleted."
             return HttpResponseRedirect('/admin/users')
 
@@ -112,6 +121,14 @@ def restore_user(request):
             user.archive = False
             user.save()
             logger.log(Action.ACTION_ADMIN, 'Admin restored the user',user)
+            # TODO Replace with Osama's url
+            url = 'https://jsonplaceholder.typicode.com/todos/1'
+            myobj ={
+                "patientId": user.profile.id,
+                "isApproved": True,
+                "isArchived": False
+            }
+            x = requests.put(url, data = myobj)
             template_data['alert_success'] = "The user has been restored."
             return HttpResponseRedirect('/admin/users')
     return HttpResponseRedirect('/admin/users')
