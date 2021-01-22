@@ -123,9 +123,8 @@ def register_view(request):
                 "patientName": user.account.profile.firstname +" " + user.account.profile.lastname,
                 "isApproved": True
             }
-            print(myobj)
+
             x = requests.post(url, data = myobj)
-            print(x.text)
             return HttpResponseRedirect('/profile/')
     else:
         form = AccountRegisterForm()

@@ -84,10 +84,8 @@ def user_archive(request):
                 "isApproved": True,
                 "isArchived": True
             }
-            print(myobj)
-            x = requests.put(url, data = myobj)
-            print(x.text)
-            
+
+            x = requests.put(url, data = myobj)     
             template_data['alert_success'] = "The user has been deleted."
             return HttpResponseRedirect('/admin/users')
 
@@ -123,6 +121,14 @@ def restore_user(request):
             user.archive = False
             user.save()
             logger.log(Action.ACTION_ADMIN, 'Admin restored the user',user)
+            # TODO Replace with Osama's url
+            url = 'https://jsonplaceholder.typicode.com/todos/1'
+            myobj ={
+                "patientId": user.profile.id,
+                "isApproved": False,
+                "isArchived": True
+            }
+            x = requests.put(url, data = myobj)
             template_data['alert_success'] = "The user has been restored."
             return HttpResponseRedirect('/admin/users')
     return HttpResponseRedirect('/admin/users')
