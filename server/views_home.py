@@ -6,7 +6,7 @@ from server.forms import LoginForm, AccountRegisterForm
 from server.models import Account, Action
 from server import views
 from server import logger
-
+import requests
 
 def setup_view(request):
     if Account.objects.all().count() > 0:
@@ -116,6 +116,16 @@ def register_view(request):
             logger.log(Action.ACTION_ACCOUNT, "Account Login", user.account)
             login(request,user)
             request.session['alert_success'] = "Successfully registered with VirtualClinic."
+            # TODO Replace with Osama's url
+            url = 'https://decisionengine-microservice.et.r.appspot.com/decisionByTreeId'
+            myobj ={
+                "patientId": user.account.profile.id,
+                "patientName": user.account.profile.firstname +" " + user.account.profile.lastname,
+                "isApproved": True
+            }
+            print(myobj)
+            x = requests.post(url, data = myobj)
+            print(x.text)
             return HttpResponseRedirect('/profile/')
     else:
         form = AccountRegisterForm()
