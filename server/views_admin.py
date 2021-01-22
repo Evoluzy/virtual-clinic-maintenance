@@ -125,8 +125,8 @@ def restore_user(request):
             url = 'https://jsonplaceholder.typicode.com/todos/1'
             myobj ={
                 "patientId": user.profile.id,
-                "isApproved": False,
-                "isArchived": True
+                "isApproved": True,
+                "isArchived": False
             }
             x = requests.put(url, data = myobj)
             template_data['alert_success'] = "The user has been restored."
