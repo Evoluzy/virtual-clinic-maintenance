@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 	`lastname` varchar(50),
 	`sex` ENUM ('M', 'F'),
 	`birthday` timestamp DEFAULT CURRENT_TIMESTAMP,
+	'address' varchar(250),
 	`phone` varchar(10),
 	`allergies` varchar(250),
 	`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
