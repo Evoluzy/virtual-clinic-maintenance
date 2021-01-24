@@ -82,6 +82,7 @@ class Profile(models.Model):
     lastname = models.CharField(blank=True, max_length=50)
     sex = models.CharField(blank=True, max_length=1, choices=GENDER)
     birthday = models.DateField(default=date(1000, 1, 1))
+    address = models.CharField(blank=True, max_length=250)
     phone = models.CharField(blank=True, max_length=10)
     allergies = models.CharField(blank=True, max_length=250)
     created = models.DateTimeField(auto_now_add=True)
@@ -100,6 +101,8 @@ class Profile(models.Model):
             fields['sex'] = self.sex
         if not self.birthday.year == 1000:
             fields['birthday'] = self.birthday
+        if self.address is not None:
+            fields['address'] = self.address
         if self.phone is not None:
             fields['phone'] = self.phone
         if self.allergies is not None:
