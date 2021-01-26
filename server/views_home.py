@@ -116,8 +116,7 @@ def register_view(request):
             logger.log(Action.ACTION_ACCOUNT, "Account Login", user.account)
             login(request,user)
             request.session['alert_success'] = "Successfully registered with VirtualClinic."
-            # TODO Replace with Osama's url
-            url = 'https://decisionengine-microservice.et.r.appspot.com/decisionByTreeId'
+            url = 'https://evoluzy.et.r.appspot.com/patient/'
             myobj ={
                 "patientId": user.account.profile.id,
                 "patientName": user.account.profile.firstname +" " + user.account.profile.lastname,
@@ -125,6 +124,7 @@ def register_view(request):
             }
 
             x = requests.post(url, data = myobj)
+            
             return HttpResponseRedirect('/profile/')
     else:
         form = AccountRegisterForm()
