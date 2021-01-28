@@ -159,8 +159,8 @@ class ProfileForm(BasicForm):
         profile.lastname = self.cleaned_data['lastname']
         profile.sex = self.cleaned_data['sex']
         if self.cleaned_data['birthday'] is not None:
-            profile.birthday = self.cleaned_data['birthday']
-            profile.address = self.cleaned_data['address']
+        profile.birthday = self.cleaned_data['birthday']
+        profile.address = self.cleaned_data['address']
         profile.phone = self.cleaned_data['phone']
         profile.allergies = self.cleaned_data['allergies']
         profile.prefHospital = self.cleaned_data['prefHospital']
