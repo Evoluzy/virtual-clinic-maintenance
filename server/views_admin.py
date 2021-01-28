@@ -13,6 +13,7 @@ from server.models import Speciality, Account, Action, Hospital, Location, Stati
 from server import logger
 from server import views
 import requests
+import json
 
 def parse_speciality_delete(request):
     # Authentication check.
@@ -77,15 +78,21 @@ def user_archive(request):
             user.archive = True
             user.save()
             #logger.log(Action.ACTION_ADMIN, 'Admin deleted a user',user)
-            # TODO Replace with Osama's url
-            url = 'https://jsonplaceholder.typicode.com/todos/1'
-            myobj ={
-                "patientId": user.profile.id,
-                "isApproved": True,
-                "isArchived": True
-            }
+            url = 'https://evoluzy.et.r.appspot.com/patient/'
+            x = requests.get(url, params={'patientId': user.profile.id})
+            patient_dict = json.loads(x.text)
 
-            x = requests.put(url, data = myobj)     
+            url = 'https://evoluzy.et.r.appspot.com/patient/'
+            myobj ={
+                "isArchived": True,
+                "healthData": patient_dict['healthData'],
+                "isApproved": patient_dict['isApproved'],
+                "patientId": patient_dict['patientId'],
+                "patientName": patient_dict['patientName']    
+            }
+            x = requests.put(url, json = myobj)  
+            print(x.text)
+
             template_data['alert_success'] = "The user has been deleted."
             return HttpResponseRedirect('/admin/users')
 
@@ -121,14 +128,22 @@ def restore_user(request):
             user.archive = False
             user.save()
             logger.log(Action.ACTION_ADMIN, 'Admin restored the user',user)
-            # TODO Replace with Osama's url
-            url = 'https://jsonplaceholder.typicode.com/todos/1'
+     
+            url = 'https://evoluzy.et.r.appspot.com/patient/'
+            x = requests.get(url, params={'patientId': user.profile.id})
+            patient_dict = json.loads(x.text)
+
+            url = 'https://evoluzy.et.r.appspot.com/patient/'
             myobj ={
-                "patientId": user.profile.id,
-                "isApproved": True,
-                "isArchived": False
+                "patientId": patient_dict['patientId'],
+                "isApproved": patient_dict['isApproved'],
+                "isArchived": False,
+                "patientName": patient_dict['patientName'],
+                "healthData": patient_dict['healthData']
             }
-            x = requests.put(url, data = myobj)
+            x = requests.put(url, json = myobj)     
+            print(x.text)
+
             template_data['alert_success'] = "The user has been restored."
             return HttpResponseRedirect('/admin/users')
     return HttpResponseRedirect('/admin/users')
