@@ -98,3 +98,4 @@ venv.bak/
 
 # mkdocs documentation
 /site
+db.sqlite3

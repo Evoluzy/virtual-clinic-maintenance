@@ -36,11 +36,11 @@ class ProfileAdmin(admin.ModelAdmin):
         'lastname',
         'sex',
         'birthday',
-        'address'
+         'address',
         'phone',
         'allergies'
     ]
-    list_display = ('firstname', 'lastname', 'birthday','address', 'created')
+    list_display = ('firstname', 'lastname', 'birthday', 'address', 'created')
 
 
 admin.site.register(Profile, ProfileAdmin)
